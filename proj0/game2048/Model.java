@@ -111,6 +111,8 @@ public class Model extends Observable {
         int scoreAdder = 0;
         int size = board.size();
 
+        Side originalPerspective = board.getViewingPerspective();
+        board.startViewingFrom(side);
 
         // 👇 新增：根据当前视角，确定row的遍历顺序（核心！）
         int startRow, endRow, step;
@@ -183,9 +185,11 @@ public class Model extends Observable {
         }
 
         // 4. 恢复原有视角（之前的代码，保留）
+        board.startViewingFrom(originalPerspective);
 
         this.score += scoreAdder;
         checkGameOver();
+
         if (changed) {
             setChanged();
         }
