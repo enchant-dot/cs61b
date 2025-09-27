@@ -111,71 +111,53 @@ public class Model extends Observable {
         int scoreAdder = 0;
         int size = board.size();
 
-        Side originalPerspective = board.getViewingPerspective();
-        board.startViewingFrom(side);
-
-        // 👇 新增：根据当前视角，确定row的遍历顺序（核心！）
-        int startRow, endRow, step;
-        if (side == Side.NORTH) {
-            // NORTH：从顶（size-1）到底（0），步长-1
-            startRow = size - 1;
-            endRow = 0;
-            step = -1;
-        } else if (side == Side.SOUTH) {
-            // SOUTH：从底（0）到顶（size-1），步长1
-            startRow = size - 1;
-            endRow = 0;
-            step = -1;
-        } else {
-            // 暂时先处理NORTH/SOUTH，WEST/EAST后续同理
-            startRow = size - 1;
-            endRow = 0;
-            step = -1;
+        if (side != Side.NORTH) {
+            return changed; // 只处理向北倾斜，避免其他方向干扰
         }
 
-        // 2. 合并阶段：用动态生成的startRow/endRow/step遍历row
         for (int col = 0; col < size; col++) {
-            // 合并阶段：遍历row的循环改成动态顺序
-            for (int row = startRow; row != endRow + step; row += step) { // 终止条件注意：row不能超过endRow+step
+            // 第一步：合并相同值（只处理非null方块）
+            // 从顶端（row=3）开始，往下找能合并的
+            for (int row = size - 1; row >= 0; row--) {
                 Tile a = board.tile(col, row);
                 if (a == null) {
-                    continue;
+                    continue; // a是null，跳过（不碰它）
                 }
 
-                // 找a的“相邻方向”第一个非null方块b：i的遍历方向和step一致
+                // 找a下方第一个非null的方块b
                 Tile b = null;
-                for (int i = row + step; i != endRow + step && i >= 0 && i < size; i += step) {
-                    // i = row + step：NORTH时i递减（row-1），SOUTH时i递增（row+1）
+                for (int i = row - 1; i >= 0; i--) {
                     Tile temp = board.tile(col, i);
                     if (temp != null) {
                         b = temp;
-                        break;
+                        break; // 找到第一个非null的b就停
                     }
                 }
 
+                // 只有b存在且和a值相同，才合并
                 if (b != null && a.value() == b.value()) {
-                    board.move(col, row, b);
-                    scoreAdder += a.value() * 2;
+                    board.move(col, row, b); // 合并b到a的位置
+                    scoreAdder += a.value() * 2; // 正确加分
                     changed = true;
-
-                    // 关键：合并后，a的位置已经有值，后续不要再处理a的相邻方块（避免重复合并）
-                    break;
                 }
             }
-
-            // 3. 紧凑阶段：同样用动态顺序遍历row
-            for (int row = startRow; row != endRow + step; row += step) {
-                if (board.tile(col, row) == null) {
-                    // 找“相邻方向”第一个非null方块lower：i的遍历方向和step一致
+            // 第二步：紧凑排列（把所有非null方块往上移，填满空隙）
+            // 从顶端开始，遇到null就找下方非null的填上来
+            for (int row = size - 1; row >= 0; row--) {
+                if (board.tile(col, row) == null  ) { // 当前位置是空的
+                    // 找下方第一个非null的方块
                     Tile lower = null;
-                    for (int i = row + step; i != endRow + step && i >= 0 && i < size; i += step) {
+                    int lowerRow = -1;
+                    for (int i = row - 1; i >= 0; i--) {
                         Tile temp = board.tile(col, i);
                         if (temp != null) {
                             lower = temp;
+                            lowerRow = i;
                             break;
                         }
                     }
 
+                    // 如果找到，就移上来
                     if (lower != null) {
                         board.move(col, row, lower);
                         changed = true;
@@ -184,17 +166,19 @@ public class Model extends Observable {
             }
         }
 
-        // 4. 恢复原有视角（之前的代码，保留）
-        board.startViewingFrom(originalPerspective);
-
         this.score += scoreAdder;
         checkGameOver();
-
         if (changed) {
             setChanged();
         }
         return changed;
     }
+
+
+
+
+
+
 
 
 
