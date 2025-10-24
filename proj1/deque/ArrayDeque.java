@@ -1,14 +1,14 @@
 package deque;
 
-
 import org.apache.commons.collections.iterators.ArrayListIterator;
 import java.util.Iterator;
 
-public class ArrayDeque<T> implements Iterable<T>{
+public class ArrayDeque<T> implements Deque<T>{
 
     private T[] items;
     private int size;
     private int capacity;
+
 
     public ArrayDeque() {
         capacity = 8;

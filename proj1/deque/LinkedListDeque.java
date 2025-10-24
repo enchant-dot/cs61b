@@ -1,8 +1,10 @@
 package deque;
 
+import afu.org.checkerframework.checker.oigj.qual.O;
+
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Iterable<T> {
+public class LinkedListDeque<T> implements Deque<T> {
 
     private static class Node<T> {
         T item;
@@ -25,23 +27,28 @@ public class LinkedListDeque<T> implements Iterable<T> {
         sentinel.next = sentinel;
         size = 0;
     }
+    @Override
     public void addFirst(T item) {
         size += 1;
         sentinel.next.prev = new Node<T> (item, sentinel, sentinel.next);
         sentinel.next = sentinel.next.prev;
 
     }
+    @Override
     public void addLast(T item) {
         size += 1;
         sentinel.prev.next = new Node<T> (item, sentinel.prev, sentinel);
         sentinel.prev =  sentinel.prev.next;
     }
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
+    @Override
     public int size() {
         return size;
     }
+    @Override
     public void printDeque() {
         Node<T> temp;
         temp = sentinel.next;
@@ -51,6 +58,7 @@ public class LinkedListDeque<T> implements Iterable<T> {
         }
         System.out.println();
     }
+    @Override
     public T removeFirst() {
         if (isEmpty()) {
             return null;
@@ -61,6 +69,7 @@ public class LinkedListDeque<T> implements Iterable<T> {
         size -= 1;
         return item;
     }
+    @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
@@ -71,6 +80,7 @@ public class LinkedListDeque<T> implements Iterable<T> {
         size -= 1;
         return item;
     }
+    @Override
     public T get(int index) {
         if (index < 0 || index >= size) {
             return null;
