@@ -153,7 +153,7 @@ public class LinkedListDeque<T> implements Deque<T> {
         if (other == null) {
             return false;
         }
-        if (!(other instanceof LinkedListDeque<?>)) {
+        if (!(other instanceof LinkedListDeque)) {
             return false;
         }
         LinkedListDeque<?> o = (LinkedListDeque<?>) other;
@@ -167,7 +167,7 @@ public class LinkedListDeque<T> implements Deque<T> {
             T thisItem = thisIter.next();
             Object otherItem = otherIter.next();
             if (thisItem == null) {
-                if (otherItem == null) {
+                if (otherItem != null) {
                     return false;
                 }
             } else if((!thisItem.equals(otherItem))) {

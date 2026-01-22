@@ -23,8 +23,9 @@ public class TimeAList {
 
     public static void timeAListConstruction() {
         // TODO: YOUR CODE HERE
-        //定义要测试的N的大小
+
         int[] NsArray = {1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000};
+        int M = 10000;
 
         AList<Integer> Ns = new AList<>();
         AList<Double> times = new AList<>();
@@ -33,12 +34,13 @@ public class TimeAList {
         for (int N : NsArray) {
             AList<Integer> list = new AList<>();
             Stopwatch sw = new Stopwatch();
-            for (int i = 0 ; i < N; i++ ) {
+            for (int i = 0; i < N; i++) {
                 list.addLast(i);
             }
-            double timeInSeconds = sw.elapsedTime();
+
+            double timeInseconds = sw.elapsedTime();
             Ns.addLast(N);
-            times.addLast(timeInSeconds);
+            times.addLast(timeInseconds);
             opCounts.addLast(N);
         }
         printTimingTable(Ns, times, opCounts);

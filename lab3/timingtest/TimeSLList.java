@@ -23,37 +23,31 @@ public class TimeSLList {
 
     public static void timeGetLast() {
         // TODO: YOUR CODE HERE
-        int[] NsArray = {1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000};
-        int M = 10000; // 每次测试调用 getLast 的次数
+
+        int[] NsArray = {1000, 2000, 4000, 8000, 16000};
+        int M = 12800;
 
         AList<Integer> Ns = new AList<>();
         AList<Double> times = new AList<>();
         AList<Integer> opCounts = new AList<>();
 
-        for (int N : NsArray) {
-            // 1. 创建 SLList 并添加 N 个元素（构建阶段，不计时）
-            SLList<Integer> slist = new SLList<>();
-            for (int i = 0; i < N; i++) {
-                slist.addLast(i);
-            }
+        for (int i : NsArray) {
 
-            // 2. 启动计时器
+            SLList<Integer> testlist = new SLList<>();
+
+            for (int j = 0; j < i; j++) {
+                testlist.addLast(i);
+            }
             Stopwatch sw = new Stopwatch();
-
-            // 3. 执行 M 次 getLast
-            for (int i = 0; i < M; i++) {
-                slist.getLast();
+            for (int k = 0; k < M; k++) {
+                testlist.getLast();
             }
-
-            // 4. 记录时间
-            double timeInSeconds = sw.elapsedTime();
-
-            Ns.addLast(N);
-            times.addLast(timeInSeconds);
-            opCounts.addLast(M);
+            double timeInseconds = sw.elapsedTime();
+            Ns.addLast(i);
+            times.addLast(timeInseconds);
+            opCounts.addLast(i);
         }
-
-        // 5. 打印表格
         printTimingTable(Ns, times, opCounts);
+
     }
 }
