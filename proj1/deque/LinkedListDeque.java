@@ -22,14 +22,14 @@ public class LinkedListDeque<T> implements Deque<T>{
     @Override
     public void addFirst(T item) {
         size++;
-        this.sentinel.next.prev = new Node(item, this.sentinel, this.sentinel.next);
+        this.sentinel.next.prev = new Node<>(item, this.sentinel, this.sentinel.next);
         this.sentinel.next = this.sentinel.next.prev;
     }
 
     @Override
     public void addLast(T item) {
         size++;
-        this.sentinel.prev.next = new Node(item, this.sentinel.prev, this.sentinel);
+        this.sentinel.prev.next = new Node<>(item, this.sentinel.prev, this.sentinel);
         this.sentinel.prev = this.sentinel.prev.next;
     }
 
