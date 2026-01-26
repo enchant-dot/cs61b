@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
 import java.util.zip.GZIPInputStream;
+import java.util.Map;
 
 /**
  * This code does some stuff. Run it (with sound on!) to find out what stuff it does!
@@ -26,6 +27,9 @@ public class TTFAF {
         // You can also do this:
          GuitarPlayer player = new GuitarPlayer(new java.io.File("path/to/music.mid"));
          player.play();
+
+         int[] targetnums = new int[5];
+
     }
 
     private static final String TTFAF =
