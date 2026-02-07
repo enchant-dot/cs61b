@@ -3,8 +3,6 @@ import java.util.Set;
 import java.util.Iterator;
 import java.util.Stack;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
     private BSTNode root;
@@ -43,7 +41,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
         root = putHelper(root, key, value);
     }
 
-    public BSTNode putHelper(BSTNode root, K key, V value) {
+    private BSTNode putHelper(BSTNode root, K key, V value) {
         if (root == null) {
             size++;
             return new BSTNode(key, value);
@@ -65,7 +63,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
         return node.Value;
     }
 
-    public BSTNode findHelper(BSTNode n, K key) {
+    private BSTNode findHelper(BSTNode n, K key) {
         if (n == null ) {
             return null;
         }
@@ -102,7 +100,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
         return null;
     }
 
-    public BSTNode removeHelper(BSTNode n, K key) {
+    private BSTNode removeHelper(BSTNode n, K key) {
         if (n == null) return null;
         int cmp = key.compareTo(n.Key);
         if (cmp < 0) {
@@ -121,12 +119,12 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
         return n;
     }
 
-    public BSTNode findMin(BSTNode n) {
+    private BSTNode findMin(BSTNode n) {
         if (n.left == null) return n;
         return findMin(n.left);
     }
 
-    public BSTNode deleteMin(BSTNode n) {
+    private BSTNode deleteMin(BSTNode n) {
         if (n.left == null) return n.right;
         n.left = deleteMin(n.left);
         return n;
@@ -137,7 +135,7 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
         return new BSTMapIterator(root);
     }
 
-    public class BSTMapIterator implements Iterator<K> {
+    private class BSTMapIterator implements Iterator<K> {
         private Stack<BSTNode> stack = new Stack<>();
 
         public BSTMapIterator(BSTNode root) {
@@ -172,34 +170,13 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V>{
         printInOrderhelper(root);
     }
 
-    public void printInOrderhelper(BSTNode root) {
+    private void printInOrderhelper(BSTNode root) {
         if (root == null) return;
         printInOrderhelper(root.left);
         System.out.print(root.Key + ":" + root.Value);
         printInOrderhelper(root.right);
     }
 
-
-    public static void main(String[] args) {
-        BSTMap<String,String> q = new BSTMap<String,String>();
-        q.put("c","a");
-        q.put("b","a");
-        q.put("a","a");
-        q.put("d","a");
-        q.put("e","a"); // a b c d e
-//        assertTrue(null != q.remove("c"));
-//        assertFalse(q.containsKey("c"));
-//        assertTrue(q.containsKey("a"));
-//        assertTrue(q.containsKey("b"));
-//        assertTrue(q.containsKey("d"));
-//        assertTrue(q.containsKey("e"));
-        System.out.println(null != q.remove("c"));
-        System.out.println(q.containsKey("c"));
-        System.out.println(q.containsKey("a"));
-        System.out.println(q.containsKey("b"));
-        System.out.println(q.containsKey("d"));
-        System.out.println(q.containsKey("e"));
-    }
 
 
 
