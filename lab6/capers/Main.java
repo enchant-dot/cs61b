@@ -1,6 +1,9 @@
 package capers;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Stack;
+import java.util.List;
 
 import static capers.Utils.*;
 
@@ -37,9 +40,14 @@ public class Main {
      * @param args arguments from the command line
      */
     public static void main(String[] args) {
+        File f = new File("dummy.txt");
+        Queue
+
+
         if (args.length == 0) {
             Utils.exitWithError("Must have at least one argument");
         }
+        System.out.println("args: " + Arrays.toString(args));
 
         CapersRepository.setupPersistence();
         String text;
